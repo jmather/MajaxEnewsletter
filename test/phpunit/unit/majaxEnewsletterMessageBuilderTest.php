@@ -10,10 +10,26 @@ class unit_majaxEnewsletterMessageBuilderTest extends sfPHPUnitBaseTestCase
   {
     $this->builder = new majaxEnewsletterMessageBuilder();
   }
+
+  /**
+   * @return majaxEnewsletterFormatterInterface
+   */
+  private function getFormatter()
+  {
+    return new majaxEnewsletterTwigCompatibleFormatter();
+  }
+
   public function test_BuildingAMessage()
   {
-    
+    // this makes us a bunch of fake subscribers to test.
+    $subscriber_provider = new majaxEnewsletterTestSubscriberProvider(10);
+
+    $subscribers = $subscriber_provider->getSubscribers();
+    $subscriber = $subscribers[0];
+
+    $formatter = $this->getFormatter();
+
+    $enewsletter =
   }
 }
 
-class majaxEnewsletterSubscriber

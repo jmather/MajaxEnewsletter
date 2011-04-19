@@ -24,7 +24,7 @@ class majaxEnewsletterMessageBuilder implements majaxEnewsletterMessageBuilderIn
    */
   private $email_class;
 
-  public function __construct(majaxEnewsletterInterface $enewsletter = null, majaxEnewsletterFormatterInterface $formatter = null, $email_class = 'majaxEnewsletterEmail')
+  public function __construct(majaxEnewsletterInterface $enewsletter = null, majaxEnewsletterFormatterInterface $formatter = null, $email_class = 'majaxEnewsletterEmailContainer')
   {
     $this->setEnewsletter($enewsletter);
     $this->setFormatter($formatter);

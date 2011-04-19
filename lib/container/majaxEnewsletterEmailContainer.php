@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
  
-class majaxEnewsletterEmail implements majaxEnewsletterEmailInterface
+class majaxEnewsletterEmailContainer implements majaxEnewsletterEmailInterface
 {
   private $headers;
   private $from_email;

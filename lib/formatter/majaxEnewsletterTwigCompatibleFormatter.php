@@ -1,17 +1,14 @@
 <?php
 
 class majaxEnewsletterTwigCompatibleFormatter extends majaxEnewsletterFormatter {
-  public function render($text)
+
+  public function __construct($codes = array(), $clear_unused_codes = true)
   {
-    $codes = $this->codes;
-    $function = function($matches) use ($codes)
-    {
-      if (isset($codes[$matches[1]]))
-        return $codes[$matches[1]];
-      return '';
-    };
-    $content = preg_replace_callback('/{{ (.*) }}/U', $function, $text);
-    
-    return $content;
+    parent::__construct($codes, $clear_unused_codes);
+  }
+
+  protected function getReplacePattern()
+  {
+    return '/{{ (.*) }}/U';
   }
 }

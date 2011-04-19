@@ -30,6 +30,7 @@ class unit_majaxEnewsletterFormatterTest extends sfPHPUnitBaseTestCase
     return array(
       array('{message}', array('message' => 'hello'), 'hello'),
       array('{m1} {m2}', array('m1' => 'msg1', 'm2' => 'msg2'), 'msg1 msg2'),
+      array('{user.name}', array('user' => array('name' => 'hello')), 'hello'),
     );
   }
 

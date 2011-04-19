@@ -18,6 +18,18 @@ class majaxEnewsletterEmailContainer implements majaxEnewsletterEmailInterface
   private $html_content;
   private $text_content;
 
+  public function __construct()
+  {
+    $this->headers = array();
+    $this->from_email = '';
+    $this->from_name = '';
+    $this->to_email = '';
+    $this->to_name = '';
+    $this->subject = '';
+    $this->html_content = '';
+    $this->text_content = '';
+  }
+
   /**
    * @return string
    */

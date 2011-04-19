@@ -26,8 +26,10 @@ class majaxEnewsletterMessageBuilder implements majaxEnewsletterMessageBuilderIn
 
   public function __construct(majaxEnewsletterInterface $enewsletter = null, majaxEnewsletterFormatterInterface $formatter = null, $email_class = 'majaxEnewsletterEmailContainer')
   {
-    $this->setEnewsletter($enewsletter);
-    $this->setFormatter($formatter);
+    if ($enewsletter !== null)
+      $this->setEnewsletter($enewsletter);
+    if ($formatter !== null)
+      $this->setFormatter($formatter);
     $this->email_class = $email_class;
   }
 
@@ -98,7 +100,7 @@ class majaxEnewsletterMessageBuilder implements majaxEnewsletterMessageBuilderIn
 
     $subscriber = $message->getSubscriber();
 
-    $this->configureFormatter($subscriber);
+    $this->configureFormatter($message);
 
     $response = $this->getNewEmail();
 
@@ -109,8 +111,10 @@ class majaxEnewsletterMessageBuilder implements majaxEnewsletterMessageBuilderIn
     $response->setToEmail($subscriber->getEmail());
     $response->setToName($subscriber->getName());
 
+
     $html_body = $this->formatter->render($this->enewsletter->getHtmlBody());
     $text_body = $this->formatter->render($this->enewsletter->getTextBody());
+
 
     $enewsletter_vars = array(
       'html' => $html_body,

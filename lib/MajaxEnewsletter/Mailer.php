@@ -55,6 +55,8 @@ class MajaxEnewsletter_Mailer implements MajaxEnewsletter_Mailer_Interface
 
   public function send()
   {
+    $this->builder->setEnewsletter($this->enewsletter);
+
     $subscribers = $this->subscriber_publisher->getSubscribers();
 
     /** @var MajaxEnewsletter_Subscriber_Interface $subscriber */

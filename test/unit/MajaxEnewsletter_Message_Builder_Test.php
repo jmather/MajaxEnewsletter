@@ -1,6 +1,6 @@
 <?php
 require_once dirname(__FILE__).'/../bootstrap/unit.php';
-require_once dirname(__FILE__).'/../lib/majaxEnewsletterTestSubscriberProvider.php';
+require_once dirname(__FILE__).'/../lib/MajaxEnewsletter_Subscriber_Provider_Test.php';
 
 class unit_MajaxEnewsletter_Message_Builder_Test extends PHPUnit_Framework_TestCase
 {
@@ -23,7 +23,7 @@ class unit_MajaxEnewsletter_Message_Builder_Test extends PHPUnit_Framework_TestC
   public function test_BuildingAMessage()
   {
     // this makes us a bunch of fake subscribers to test.
-    $subscriber_provider = new majaxEnewsletterTestSubscriberProvider(10);
+    $subscriber_provider = new MajaxEnewsletter_Subscriber_Provider_Test(10);
 
     $subscribers = $subscriber_provider->getSubscribers();
     $subscriber = $subscribers[0];

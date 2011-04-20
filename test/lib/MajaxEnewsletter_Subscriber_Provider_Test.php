@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
  
-class majaxEnewsletterTestSubscriberProvider implements MajaxEnewsletter_Subscriber_Provider_Interface {
+class MajaxEnewsletter_Subscriber_Provider_Test implements MajaxEnewsletter_Subscriber_Provider_Interface {
   /**
    * @var SubscriberInterface[]
    */

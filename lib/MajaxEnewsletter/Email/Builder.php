@@ -10,19 +10,14 @@
 class MajaxEnewsletter_Email_Builder implements MajaxEnewsletter_Email_Builder_Interface
 {
   /**
-   * @var MajaxEnewsletter_Message_Interface
-   */
-  private $enewsletter;
-
-  /**
    * @var MajaxEnewsletter_Formatter_Interface
    */
-  private $formatter;
+  protected $formatter;
 
   /**
    * @var string
    */
-  private $email_class;
+  protected $email_class;
 
   public function __construct(MajaxEnewsletter_Formatter_Interface $formatter = null, $email_class = 'MajaxEnewsletter_Email')
   {
@@ -56,13 +51,13 @@ class MajaxEnewsletter_Email_Builder implements MajaxEnewsletter_Email_Builder_I
   /**
    * @return MajaxEnewsletter_Email_Interface
    */
-  private function getNewEmail()
+  protected function getNewEmail()
   {
     return new $this->email_class();
 
   }
 
-  private function configureFormatter(MajaxEnewsletter_QueueEntry_Interface $message)
+  protected function configureFormatter(MajaxEnewsletter_QueueEntry_Interface $message)
   {
     $this->formatter->resetCodes();
 

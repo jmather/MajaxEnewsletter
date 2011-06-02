@@ -29,17 +29,19 @@ class MajaxEnewsletter_Subscriber_Provider_Fake implements MajaxEnewsletter_Subs
   }
 
   /**
+   * @param \MajaxEnewsletter_Message_Interface $enewsletter
    * @return integer
    */
-  public function getCount()
+  public function getCount(MajaxEnewsletter_Message_Interface $enewsletter)
   {
     return count($this->subscribers);
   }
 
   /**
+   * @param \MajaxEnewsletter_Message_Interface $enewsletter
    * @return MajaxEnewsletter_Subscriber_Interface[]
    */
-  public function getSubscribers()
+  public function getSubscribers(MajaxEnewsletter_Message_Interface $enewsletter)
   {
     return $this->subscribers;
   }

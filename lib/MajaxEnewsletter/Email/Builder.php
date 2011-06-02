@@ -24,18 +24,11 @@ class MajaxEnewsletter_Email_Builder implements MajaxEnewsletter_Email_Builder_I
    */
   private $email_class;
 
-  public function __construct(MajaxEnewsletter_Message_Interface $enewsletter = null, MajaxEnewsletter_Formatter_Interface $formatter = null, $email_class = 'MajaxEnewsletter_Email')
+  public function __construct(MajaxEnewsletter_Formatter_Interface $formatter = null, $email_class = 'MajaxEnewsletter_Email')
   {
-    if ($enewsletter !== null)
-      $this->setEnewsletter($enewsletter);
     if ($formatter !== null)
       $this->setFormatter($formatter);
     $this->email_class = $email_class;
-  }
-
-  public function setEnewsletter(MajaxEnewsletter_Message_Interface $enewsletter)
-  {
-    $this->enewsletter = $enewsletter;
   }
 
   public function setFormatter(MajaxEnewsletter_Formatter_Interface $formatter)
@@ -87,12 +80,8 @@ class MajaxEnewsletter_Email_Builder implements MajaxEnewsletter_Email_Builder_I
     $this->formatter->setCode('subscriber', $subscriber_vars);
   }
 
-  public function build(MajaxEnewsletter_QueueEntry_Interface $queue_entry)
+  public function build(MajaxEnewsletter_Message_Interface $enewsletter, MajaxEnewsletter_QueueEntry_Interface $queue_entry)
   {
-    if (!$this->enewsletter)
-    {
-      throw new InvalidArgumentException('No enewsletter has been set.');
-    }
     if (!$this->formatter)
     {
       throw new InvalidArgumentException('No formatter has been set.');
@@ -104,22 +93,22 @@ class MajaxEnewsletter_Email_Builder implements MajaxEnewsletter_Email_Builder_I
 
     $response = $this->getNewEmail();
 
-    $response->setSubject($this->enewsletter->getSubject());
-    $response->setFromEmail($this->enewsletter->getFromEmail());
-    $response->setFromName($this->enewsletter->getFromName());
+    $response->setSubject($enewsletter->getSubject());
+    $response->setFromEmail($enewsletter->getFromEmail());
+    $response->setFromName($enewsletter->getFromName());
 
     $response->setToEmail($subscriber->getEmail());
     $response->setToName($subscriber->getName());
 
-    $text_body = $this->formatter->render($this->enewsletter->getTextBody());
+    $text_body = $this->formatter->render($enewsletter->getTextBody());
     $this->formatter->setCode('enewsletter', $text_body);
     $response->setTextBody($text_body);
-    $response->setTextContent($this->formatter->render($this->enewsletter->getTemplate()->getTextTemplate()));
+    $response->setTextContent($this->formatter->render($enewsletter->getTemplate()->getTextTemplate()));
 
-    $html_body = $this->formatter->render($this->enewsletter->getHtmlBody());
+    $html_body = $this->formatter->render($enewsletter->getHtmlBody());
     $this->formatter->setCode('enewsletter', $html_body);
     $response->setHtmlBody($html_body);
-    $response->setHtmlContent($this->formatter->render($this->enewsletter->getTemplate()->getHtmlTemplate()));
+    $response->setHtmlContent($this->formatter->render($enewsletter->getTemplate()->getHtmlTemplate()));
 
     return $response;
   }

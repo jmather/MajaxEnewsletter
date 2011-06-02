@@ -9,7 +9,12 @@
 
 interface MajaxEnewsletter_Email_Builder_Interface {
   public function setFormatter(MajaxEnewsletter_Formatter_Interface $formatter);
-  public function setEnewsletter(MajaxEnewsletter_Message_Interface $enewsletter);
   public function setEmailClass($email_class);
-  public function build(MajaxEnewsletter_QueueEntry_Interface $queueentry);
+  /**
+   * @abstract
+   * @param MajaxEnewsletter_Message_Interface $enewsletter
+   * @param MajaxEnewsletter_QueueEntry_Interface $queue_entry
+   * @return MajaxEnewsletter_Email_Interface
+   */
+  public function build(MajaxEnewsletter_Message_Interface $enewsletter, MajaxEnewsletter_QueueEntry_Interface $queue_entry);
 }

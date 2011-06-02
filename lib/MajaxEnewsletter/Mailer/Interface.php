@@ -16,12 +16,6 @@ interface MajaxEnewsletter_Mailer_Interface {
 
   /**
    * @abstract
-   * @param MajaxEnewsletter_Interface $enewsletter
-   */
-  public function setEnewsletter(MajaxEnewsletter_Message_Interface $enewsletter);
-
-  /**
-   * @abstract
    * @param MajaxEnewsletter_Subscriber_Provider_Interface $provider
    */
   public function setSubscriberProvider(MajaxEnewsletter_Subscriber_Provider_Interface $provider);
@@ -38,5 +32,5 @@ interface MajaxEnewsletter_Mailer_Interface {
    */
   public function setMessageClass($class_name);
 
-  public function send();
+  public function send(MajaxEnewsletter_Message_Interface $enewsletter);
 }

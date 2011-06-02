@@ -22,14 +22,6 @@ class unit_MajaxEnewsletter_Message_Builder_Test extends PHPUnit_Framework_TestC
 
   public function test_BuildingAMessage()
   {
-    // this makes us a bunch of fake subscribers to test.
-    $subscriber_provider = new MajaxEnewsletter_Subscriber_Provider_Fake(10);
-
-    $subscribers = $subscriber_provider->getSubscribers();
-    /** @var $subscriber MajaxEnewsletter_Subscriber_Interface */
-    $subscriber = $subscribers[0];
-
-
     $enewsletter = new MajaxEnewsletter_Message();
 
     $enewsletter->setFromEmail('from@example.com');
@@ -49,7 +41,15 @@ class unit_MajaxEnewsletter_Message_Builder_Test extends PHPUnit_Framework_TestC
 
     $enewsletter->setTemplate($email_template);
 
-    $this->builder->setEnewsletter($enewsletter);
+
+    // this makes us a bunch of fake subscribers to test.
+    $subscriber_provider = new MajaxEnewsletter_Subscriber_Provider_Fake(10);
+
+    $subscribers = $subscriber_provider->getSubscribers($enewsletter);
+    /** @var $subscriber MajaxEnewsletter_Subscriber_Interface */
+    $subscriber = $subscribers[0];
+
+
 
     $formatter = $this->getFormatter();
     $this->builder->setFormatter($formatter);
@@ -58,7 +58,7 @@ class unit_MajaxEnewsletter_Message_Builder_Test extends PHPUnit_Framework_TestC
 
     $message = new MajaxEnewsletter_QueueEntry($subscriber);
 
-    $email = $this->builder->build($message);
+    $email = $this->builder->build($enewsletter, $message);
 
     $this->assertEquals('from@example.com', $email->getFromEmail());
     $this->assertEquals('Mr. From', $email->getFromName());

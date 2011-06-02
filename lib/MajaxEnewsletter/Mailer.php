@@ -32,15 +32,11 @@ class MajaxEnewsletter_Mailer implements MajaxEnewsletter_Mailer_Interface
   private $message_class;
 
   public function __construct(
-    MajaxEnewsletter_Interface $enewsletter = null,
     MajaxEnewsletter_Subscriber_Provider_Interface $subscriber_published = null,
     MajaxEnewsletter_Mailer_Transport_Interface $transport = null,
     MajaxEnewsletter_Email_Builder_Interface $builder = null,
     $message_class = 'MajaxEnewsletter_QueueEntry')
   {
-    if ($enewsletter !== null)
-      $this->setEnewsletter($enewsletter);
-
     if ($subscriber_published !== null)
       $this->setSubscriberProvider($subscriber_published);
 
@@ -53,11 +49,9 @@ class MajaxEnewsletter_Mailer implements MajaxEnewsletter_Mailer_Interface
     $this->setMessageClass($message_class);
   }
 
-  public function send()
+  public function send(MajaxEnewsletter_Message_Interface $enewsletter)
   {
-    $this->builder->setEnewsletter($this->enewsletter);
-
-    $subscribers = $this->subscriber_publisher->getSubscribers();
+    $subscribers = $this->subscriber_publisher->getSubscribers($enewsletter);
 
     /** @var MajaxEnewsletter_Subscriber_Interface $subscriber */
     foreach($subscribers as $subscriber)
@@ -66,18 +60,10 @@ class MajaxEnewsletter_Mailer implements MajaxEnewsletter_Mailer_Interface
       /** @var MajaxEnewsletter_QueueEntry_Interface $message */
       $message = new $message_class($subscriber);
 
-      $email = $this->builder->build($message);
+      $email = $this->builder->build($enewsletter, $message);
 
       $this->transport->send($email);
     }
-  }
-
-  /**
-   * @param MajaxEnewsletter_Interface $enewsletter
-   */
-  public function setEnewsletter(MajaxEnewsletter_Message_Interface $enewsletter)
-  {
-    $this->enewsletter = $enewsletter;
   }
 
   /**

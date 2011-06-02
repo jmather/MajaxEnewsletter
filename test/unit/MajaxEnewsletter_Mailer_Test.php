@@ -52,12 +52,11 @@ class MajaxEnewsletter_Mailer_Test extends PHPUnit_Framework_TestCase
     $builder->setFormatter($formatter);
 
 
-    $this->mailer->setEnewsletter($enewsletter);
     $this->mailer->setMessageBuilder($builder);
     $this->mailer->setSubscriberProvider($provider);
     $this->mailer->setTransport($transport);
 
 
-    $this->mailer->send();
+    $this->mailer->send($enewsletter);
   }
 }

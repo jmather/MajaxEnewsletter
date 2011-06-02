@@ -17,6 +17,8 @@ class MajaxEnewsletter_Email implements MajaxEnewsletter_Email_Interface
   private $subject;
   private $html_content;
   private $text_content;
+  private $html_body;
+  private $text_body;
 
   public function __construct()
   {
@@ -161,5 +163,25 @@ class MajaxEnewsletter_Email implements MajaxEnewsletter_Email_Interface
   public function setToName($to_name)
   {
     $this->to_name = $to_name;
+  }
+
+  public function setHtmlBody($html_body)
+  {
+    $this->html_body = $html_body;
+  }
+
+  public function getHtmlBody()
+  {
+    return $this->html_body;
+  }
+
+  public function setTextBody($text_body)
+  {
+    $this->text_body = $text_body;
+  }
+
+  public function getTextBody()
+  {
+    return $this->text_body;
   }
 }

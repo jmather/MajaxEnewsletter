@@ -52,6 +52,18 @@ interface MajaxEnewsletter_Email_Interface {
 
   /**
    * @abstract
+   * @param string $body
+   */
+  public function setHtmlBody($body);
+
+  /**
+   * @abstract
+   * @param string $body
+   */
+  public function setTextBody($body);
+
+  /**
+   * @abstract
    * @param string $header
    * @param string $content
    */
@@ -98,6 +110,18 @@ interface MajaxEnewsletter_Email_Interface {
    * @return string
    */
   public function getTextContent();
+
+  /**
+   * @abstract
+   * @return string
+   */
+  public function getHtmlBody();
+
+  /**
+   * @abstract
+   * @return string
+   */
+  public function getTextBody();
 
   /**
    * @abstract

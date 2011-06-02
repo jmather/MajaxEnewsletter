@@ -4,12 +4,12 @@ require_once __DIR__.'/../lib/MajaxEnewsletter_Subscriber_Provider_Fake.php';
 
 class unit_MajaxEnewsletter_Message_Builder_Test extends PHPUnit_Framework_TestCase
 {
-  /** @var MajaxEnewsletter_QueueEntry_Builder */
+  /** @var MajaxEnewsletter_Email_Builder */
   private $builder;
 
   public function setUp()
   {
-    $this->builder = new MajaxEnewsletter_QueueEntry_Builder();
+    $this->builder = new MajaxEnewsletter_Email_Builder();
   }
 
   /**
@@ -65,6 +65,8 @@ class unit_MajaxEnewsletter_Message_Builder_Test extends PHPUnit_Framework_TestC
     $this->assertEquals($subscriber->getEmail(), $email->getToEmail());
     $this->assertEquals($subscriber->getName(), $email->getToName());
     $this->assertEquals('Test Email', $email->getSubject());
+    $this->assertEquals('<p>'.$subscriber->getName().',</p><p>Hello!</p>', $email->getHtmlBody());
+    $this->assertEquals($subscriber->getName().",\r\n\r\nHello!", $email->getTextBody());
     $this->assertEquals('<p>Enewsletter</p><p>'.$subscriber->getName().',</p><p>Hello!</p><p>Footer</p>', $email->getHtmlContent());
     $this->assertEquals("Enewsletter\r\n\r\n".$subscriber->getName().",\r\n\r\nHello!\r\n\r\nFooter", $email->getTextContent());
   }

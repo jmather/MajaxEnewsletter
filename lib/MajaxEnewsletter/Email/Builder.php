@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
  
-class MajaxEnewsletter_QueueEntry_Builder implements MajaxEnewsletter_QueueEntry_Builder_Interface
+class MajaxEnewsletter_Email_Builder implements MajaxEnewsletter_Email_Builder_Interface
 {
   /**
    * @var MajaxEnewsletter_Message_Interface
@@ -87,7 +87,7 @@ class MajaxEnewsletter_QueueEntry_Builder implements MajaxEnewsletter_QueueEntry
     $this->formatter->setCode('subscriber', $subscriber_vars);
   }
 
-  public function build(MajaxEnewsletter_QueueEntry_Interface $message)
+  public function build(MajaxEnewsletter_QueueEntry_Interface $queue_entry)
   {
     if (!$this->enewsletter)
     {
@@ -98,9 +98,9 @@ class MajaxEnewsletter_QueueEntry_Builder implements MajaxEnewsletter_QueueEntry
       throw new InvalidArgumentException('No formatter has been set.');
     }
 
-    $subscriber = $message->getSubscriber();
+    $subscriber = $queue_entry->getSubscriber();
 
-    $this->configureFormatter($message);
+    $this->configureFormatter($queue_entry);
 
     $response = $this->getNewEmail();
 
@@ -113,10 +113,12 @@ class MajaxEnewsletter_QueueEntry_Builder implements MajaxEnewsletter_QueueEntry
 
     $text_body = $this->formatter->render($this->enewsletter->getTextBody());
     $this->formatter->setCode('enewsletter', $text_body);
+    $response->setTextBody($text_body);
     $response->setTextContent($this->formatter->render($this->enewsletter->getTemplate()->getTextTemplate()));
 
     $html_body = $this->formatter->render($this->enewsletter->getHtmlBody());
     $this->formatter->setCode('enewsletter', $html_body);
+    $response->setHtmlBody($html_body);
     $response->setHtmlContent($this->formatter->render($this->enewsletter->getTemplate()->getHtmlTemplate()));
 
     return $response;

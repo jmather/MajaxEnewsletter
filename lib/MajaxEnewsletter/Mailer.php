@@ -25,7 +25,7 @@ class MajaxEnewsletter_Mailer implements MajaxEnewsletter_Mailer_Interface
   private $transport;
 
   /**
-   * @var MajaxEnewsletter_QueueEntry_Builder_Interface
+   * @var MajaxEnewsletter_Email_Builder_Interface
    */
   private $builder;
 
@@ -35,7 +35,7 @@ class MajaxEnewsletter_Mailer implements MajaxEnewsletter_Mailer_Interface
     MajaxEnewsletter_Interface $enewsletter = null,
     MajaxEnewsletter_Subscriber_Provider_Interface $subscriber_published = null,
     MajaxEnewsletter_Mailer_Transport_Interface $transport = null,
-    MajaxEnewsletter_QueueEntry_Builder_Interface $builder = null,
+    MajaxEnewsletter_Email_Builder_Interface $builder = null,
     $message_class = 'MajaxEnewsletter_QueueEntry')
   {
     if ($enewsletter !== null)
@@ -105,9 +105,9 @@ class MajaxEnewsletter_Mailer implements MajaxEnewsletter_Mailer_Interface
   }
 
   /**
-   * @param MajaxEnewsletter_QueueEntry_Builder_Interface $builder
+   * @param MajaxEnewsletter_Email_Builder_Interface $builder
    */
-  public function setMessageBuilder(MajaxEnewsletter_QueueEntry_Builder_Interface $builder)
+  public function setMessageBuilder(MajaxEnewsletter_Email_Builder_Interface $builder)
   {
     $this->builder = $builder;
   }

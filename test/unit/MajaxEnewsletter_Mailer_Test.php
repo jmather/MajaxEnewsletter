@@ -46,7 +46,7 @@ class MajaxEnewsletter_Mailer_Test extends PHPUnit_Framework_TestCase
     $provider = new MajaxEnewsletter_Subscriber_Provider_Fake(5);
 
 
-    $builder = new MajaxEnewsletter_QueueEntry_Builder();
+    $builder = new MajaxEnewsletter_Email_Builder();
 
     $formatter = new MajaxEnewsletter_Formatter_TwigCompatible();
     $builder->setFormatter($formatter);

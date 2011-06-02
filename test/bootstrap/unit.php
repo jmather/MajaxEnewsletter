@@ -7,6 +7,6 @@
  * To change this template use File | Settings | File Templates.
  */
  
-require_once dirname(__FILE__).'/../../lib/MajaxEnewsletter.php';
+require_once dirname(__FILE__).'/../../lib/MajaxEnewsletter/Autoloader.php';
 
-MajaxEnewsletter::autoload();
+MajaxEnewsletter_Autoloader::register();

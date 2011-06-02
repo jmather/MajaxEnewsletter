@@ -1,15 +1,15 @@
 <?php
 require_once dirname(__FILE__).'/../bootstrap/unit.php';
-require_once dirname(__FILE__).'/../lib/MajaxEnewsletter_Subscriber_Provider_Test.php';
+require_once __DIR__.'/../lib/MajaxEnewsletter_Subscriber_Provider_Fake.php';
 
 class unit_MajaxEnewsletter_Message_Builder_Test extends PHPUnit_Framework_TestCase
 {
-  /** @var MajaxEnewsletter_Message_Builder */
+  /** @var MajaxEnewsletter_QueueEntry_Builder */
   private $builder;
 
   public function setUp()
   {
-    $this->builder = new MajaxEnewsletter_Message_Builder();
+    $this->builder = new MajaxEnewsletter_QueueEntry_Builder();
   }
 
   /**
@@ -23,13 +23,14 @@ class unit_MajaxEnewsletter_Message_Builder_Test extends PHPUnit_Framework_TestC
   public function test_BuildingAMessage()
   {
     // this makes us a bunch of fake subscribers to test.
-    $subscriber_provider = new MajaxEnewsletter_Subscriber_Provider_Test(10);
+    $subscriber_provider = new MajaxEnewsletter_Subscriber_Provider_Fake(10);
 
     $subscribers = $subscriber_provider->getSubscribers();
+    /** @var $subscriber MajaxEnewsletter_Subscriber_Interface */
     $subscriber = $subscribers[0];
 
 
-    $enewsletter = new MajaxEnewsletter();
+    $enewsletter = new MajaxEnewsletter_Message();
 
     $enewsletter->setFromEmail('from@example.com');
     $enewsletter->setFromName('Mr. From');
@@ -41,8 +42,8 @@ class unit_MajaxEnewsletter_Message_Builder_Test extends PHPUnit_Framework_TestC
     $enewsletter->setHtmlBody($html_body);
     $enewsletter->setTextBody($text_body);
 
-    $html_template = '<p>Enewsletter</p> {{ enewsletter.html }} <p>Footer</p>';
-    $text_template = "Enewsletter\r\n\r\n{{ enewsletter.text }}\r\n\r\nFooter";
+    $html_template = '<p>Enewsletter</p>{{ enewsletter }}<p>Footer</p>';
+    $text_template = "Enewsletter\r\n\r\n{{ enewsletter }}\r\n\r\nFooter";
 
     $email_template = new MajaxEnewsletter_Template($html_template, $text_template);
 
@@ -55,10 +56,17 @@ class unit_MajaxEnewsletter_Message_Builder_Test extends PHPUnit_Framework_TestC
 
     $this->builder->setEmailClass('MajaxEnewsletter_Email');
 
-
-    $message = new MajaxEnewsletter_Message($subscriber);
+    $message = new MajaxEnewsletter_QueueEntry($subscriber);
 
     $email = $this->builder->build($message);
+
+    $this->assertEquals('from@example.com', $email->getFromEmail());
+    $this->assertEquals('Mr. From', $email->getFromName());
+    $this->assertEquals($subscriber->getEmail(), $email->getToEmail());
+    $this->assertEquals($subscriber->getName(), $email->getToName());
+    $this->assertEquals('Test Email', $email->getSubject());
+    $this->assertEquals('<p>Enewsletter</p><p>'.$subscriber->getName().',</p><p>Hello!</p><p>Footer</p>', $email->getHtmlContent());
+    $this->assertEquals("Enewsletter\r\n\r\n".$subscriber->getName().",\r\n\r\nHello!\r\n\r\nFooter", $email->getTextContent());
   }
 }
 

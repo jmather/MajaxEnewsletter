@@ -6,8 +6,8 @@
  * Time: 8:32 AM
  * To change this template use File | Settings | File Templates.
  */
-
-require_once dirname(__FILE__).'/../lib/MajaxEnewsletter_Subscriber_Provider_Test.php';
+require_once dirname(__FILE__).'/../bootstrap/unit.php';
+require_once __DIR__.'/../lib/MajaxEnewsletter_Subscriber_Provider_Fake.php';
 
 class MajaxEnewsletter_Mailer_Test extends PHPUnit_Framework_TestCase
 {
@@ -30,7 +30,7 @@ class MajaxEnewsletter_Mailer_Test extends PHPUnit_Framework_TestCase
               ->with($this->anything());
 
 
-    $enewsletter = new MajaxEnewsletter();
+    $enewsletter = new MajaxEnewsletter_Message();
     $enewsletter->setFromEmail('from@example.com');
     $enewsletter->setFromName('From Name');
     $enewsletter->setSubject('Subject');
@@ -38,15 +38,15 @@ class MajaxEnewsletter_Mailer_Test extends PHPUnit_Framework_TestCase
     $enewsletter->setTextBody('Message');
 
     $template = new MajaxEnewsletter_Template();
-    $template->setHtmlTemplate('<p>Header</p>{{ enewsletter.html }}<p>Footer</p>');
-    $template->setTextTemplate("Header\r\n\r\n{{ enewsletter.text }}\r\n\r\nFooter");
+    $template->setHtmlTemplate('<p>Header</p>{{ enewsletter }}<p>Footer</p>');
+    $template->setTextTemplate("Header\r\n\r\n{{ enewsletter }}\r\n\r\nFooter");
     $enewsletter->setTemplate($template);
 
 
-    $provider = new MajaxEnewsletter_Subscriber_Provider_Test(5);
+    $provider = new MajaxEnewsletter_Subscriber_Provider_Fake(5);
 
 
-    $builder = new MajaxEnewsletter_Message_Builder();
+    $builder = new MajaxEnewsletter_QueueEntry_Builder();
 
     $formatter = new MajaxEnewsletter_Formatter_TwigCompatible();
     $builder->setFormatter($formatter);

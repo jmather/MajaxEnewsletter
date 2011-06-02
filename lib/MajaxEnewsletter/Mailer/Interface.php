@@ -18,7 +18,7 @@ interface MajaxEnewsletter_Mailer_Interface {
    * @abstract
    * @param MajaxEnewsletter_Interface $enewsletter
    */
-  public function setEnewsletter(MajaxEnewsletter_Interface $enewsletter);
+  public function setEnewsletter(MajaxEnewsletter_Message_Interface $enewsletter);
 
   /**
    * @abstract
@@ -28,9 +28,9 @@ interface MajaxEnewsletter_Mailer_Interface {
 
   /**
    * @abstract
-   * @param MajaxEnewsletter_Message_Builder_Interface $builder
+   * @param MajaxEnewsletter_QueueEntry_Builder_Interface $builder
    */
-  public function setMessageBuilder(MajaxEnewsletter_Message_Builder_Interface $builder);
+  public function setMessageBuilder(MajaxEnewsletter_QueueEntry_Builder_Interface $builder);
 
   /**
    * @abstract

@@ -25,7 +25,7 @@ class MajaxEnewsletter_Mailer implements MajaxEnewsletter_Mailer_Interface
   private $transport;
 
   /**
-   * @var MajaxEnewsletter_Message_Builder_Interface
+   * @var MajaxEnewsletter_QueueEntry_Builder_Interface
    */
   private $builder;
 
@@ -35,8 +35,8 @@ class MajaxEnewsletter_Mailer implements MajaxEnewsletter_Mailer_Interface
     MajaxEnewsletter_Interface $enewsletter = null,
     MajaxEnewsletter_Subscriber_Provider_Interface $subscriber_published = null,
     MajaxEnewsletter_Mailer_Transport_Interface $transport = null,
-    MajaxEnewsletter_Message_Builder_Interface $builder = null,
-    $message_class = 'MajaxEnewsletter_Message')
+    MajaxEnewsletter_QueueEntry_Builder_Interface $builder = null,
+    $message_class = 'MajaxEnewsletter_QueueEntry')
   {
     if ($enewsletter !== null)
       $this->setEnewsletter($enewsletter);
@@ -63,7 +63,7 @@ class MajaxEnewsletter_Mailer implements MajaxEnewsletter_Mailer_Interface
     foreach($subscribers as $subscriber)
     {
       $message_class = $this->message_class;
-      /** @var MajaxEnewsletter_Message_Interface $message */
+      /** @var MajaxEnewsletter_QueueEntry_Interface $message */
       $message = new $message_class($subscriber);
 
       $email = $this->builder->build($message);
@@ -75,7 +75,7 @@ class MajaxEnewsletter_Mailer implements MajaxEnewsletter_Mailer_Interface
   /**
    * @param MajaxEnewsletter_Interface $enewsletter
    */
-  public function setEnewsletter(MajaxEnewsletter_Interface $enewsletter)
+  public function setEnewsletter(MajaxEnewsletter_Message_Interface $enewsletter)
   {
     $this->enewsletter = $enewsletter;
   }
@@ -105,9 +105,9 @@ class MajaxEnewsletter_Mailer implements MajaxEnewsletter_Mailer_Interface
   }
 
   /**
-   * @param MajaxEnewsletter_Message_Builder_Interface $builder
+   * @param MajaxEnewsletter_QueueEntry_Builder_Interface $builder
    */
-  public function setMessageBuilder(MajaxEnewsletter_Message_Builder_Interface $builder)
+  public function setMessageBuilder(MajaxEnewsletter_QueueEntry_Builder_Interface $builder)
   {
     $this->builder = $builder;
   }

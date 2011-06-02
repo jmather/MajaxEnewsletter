@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/../bootstrap/unit.php';
 
+
 class unit_MajaxEnewsletter_Formatter_Test extends PHPUnit_Framework_TestCase
 {
   /**
